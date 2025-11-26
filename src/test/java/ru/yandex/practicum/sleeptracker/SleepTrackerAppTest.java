@@ -166,6 +166,7 @@ public class SleepTrackerAppTest {
         SleepAnalysisResult<? extends Function<List<SleepingSession>, ?>> sleepAnalysisResult = new SleepAnalysisResult<>("Ночей без сна", new NightsWithoutSleep());
         assertTrue(sleepAnalysisResult.getSleepingSession().apply(sleepingSessions).toString().equals("0"));
     }
+
     @Test //Если легли после полуночи и проснулись до 6, то мы спали
     void shortNightSleep() {
         List<SleepingSession> sleepingSessions = List.of(
