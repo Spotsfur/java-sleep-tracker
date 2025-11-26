@@ -14,7 +14,7 @@ public class LongestTimeSession implements Function<List<SleepingSession>, Integ
         //Делаем стрим OptionalLong, потому что max хочет Optional, а Duration.between хочет long
         OptionalLong optionalMaxMinutes = sleepingSessions.stream()
                 //Превращаем каждый элемент в long minutes, сравнивая поля start и end
-                .mapToLong(session -> Duration.between(session.getSTART(), session.getEND()).toMinutes())
+                .mapToLong(session -> Duration.between(session.getStart(), session.getEnd()).toMinutes())
                 //Терминальная операция - ищем максимальный элемент
                 .max();
 

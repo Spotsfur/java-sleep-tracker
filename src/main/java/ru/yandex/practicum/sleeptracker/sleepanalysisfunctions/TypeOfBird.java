@@ -12,11 +12,11 @@ public class TypeOfBird implements Function<List<SleepingSession>, String> {
         //Находим ночи, в которых мы спали
         int nightsWithSleep = (int) sleepingSessions.stream()
                 .filter(sleepingSession ->
-                        sleepingSession.getSTART().isBefore(sleepingSession.getEND().withHour(6).withMinute(0))
-                                && sleepingSession.getEND().isAfter(sleepingSession.getEND().withHour(0).withMinute(0)))
+                        sleepingSession.getStart().isBefore(sleepingSession.getEnd().withHour(6).withMinute(0))
+                                && sleepingSession.getEnd().isAfter(sleepingSession.getEnd().withHour(0).withMinute(0)))
                 //Это короче что-то типа хеш суммы ночи из номера дня в году и последних двух цифр года
                 //Так мы получаем уникальный ИД ночи за столетний период
-                .mapToLong(sleepingSession -> sleepingSession.getEND().getDayOfYear() + (366 * (sleepingSession.getEND().getYear() % 100)))
+                .mapToLong(sleepingSession -> sleepingSession.getEnd().getDayOfYear() + (366 * (sleepingSession.getEnd().getYear() % 100)))
                 //Выбрасываем неуникальные значения
                 .distinct()
                 //Считаем количество
@@ -26,17 +26,17 @@ public class TypeOfBird implements Function<List<SleepingSession>, String> {
         List<Integer> theOwlNights = sleepingSessions.stream()
                 //Убеждаемся, что эта сессия считается ночной
                 .filter(sleepingSession ->
-                        sleepingSession.getSTART().isBefore(sleepingSession.getEND().withHour(6).withMinute(0))
-                                && sleepingSession.getEND().isAfter(sleepingSession.getEND().withHour(0).withMinute(0)))
+                        sleepingSession.getStart().isBefore(sleepingSession.getEnd().withHour(6).withMinute(0))
+                                && sleepingSession.getEnd().isAfter(sleepingSession.getEnd().withHour(0).withMinute(0)))
                 //Возможные совы
                 .filter(sleepingSession ->
-                        sleepingSession.getSTART().isAfter(sleepingSession.getEND().withHour(23).withMinute(0).minusDays(1))
-                                && sleepingSession.getEND().isAfter(sleepingSession.getEND().withHour(9).withMinute(0))
+                        sleepingSession.getStart().isAfter(sleepingSession.getEnd().withHour(23).withMinute(0).minusDays(1))
+                                && sleepingSession.getEnd().isAfter(sleepingSession.getEnd().withHour(9).withMinute(0))
                                 //Убеждаемся, что сова не спала больше суток
-                                && sleepingSession.getEND().isBefore(sleepingSession.getSTART().withHour(23).withMinute(59).plusDays(1)))
+                                && sleepingSession.getEnd().isBefore(sleepingSession.getStart().withHour(23).withMinute(59).plusDays(1)))
                 //Это короче что-то типа хеш суммы ночи из номера дня в году и последних двух цифр года
                 //Так мы получаем уникальный ИД ночи за столетний период
-                .mapToInt(sleepingSession -> sleepingSession.getEND().getDayOfYear() + (366 * (sleepingSession.getEND().getYear() % 100)))
+                .mapToInt(sleepingSession -> sleepingSession.getEnd().getDayOfYear() + (366 * (sleepingSession.getEnd().getYear() % 100)))
                 //Выбрасываем неуникальные значения
                 .distinct()
                 //Считаем количество
@@ -46,19 +46,19 @@ public class TypeOfBird implements Function<List<SleepingSession>, String> {
         List<Integer> theLarkNights = sleepingSessions.stream()
                 //Убеждаемся, что эта сессия считается ночной
                 .filter(sleepingSession ->
-                        sleepingSession.getSTART().isBefore(sleepingSession.getEND().withHour(6).withMinute(0))
-                                && sleepingSession.getEND().isAfter(sleepingSession.getEND().withHour(0).withMinute(0)))
+                        sleepingSession.getStart().isBefore(sleepingSession.getEnd().withHour(6).withMinute(0))
+                                && sleepingSession.getEnd().isAfter(sleepingSession.getEnd().withHour(0).withMinute(0)))
                 //Возможные жаворонки
                 .filter(sleepingSession ->
-                        sleepingSession.getSTART().isBefore(sleepingSession.getSTART().withHour(22).withMinute(0))
-                                && sleepingSession.getEND().isBefore(sleepingSession.getSTART().withHour(7).withMinute(0).plusDays(1))
+                        sleepingSession.getStart().isBefore(sleepingSession.getStart().withHour(22).withMinute(0))
+                                && sleepingSession.getEnd().isBefore(sleepingSession.getStart().withHour(7).withMinute(0).plusDays(1))
                                 //Убеждаемся, что жаворонок не проснулся до наступления ночи
-                                && sleepingSession.getEND().isAfter(sleepingSession.getSTART().withHour(0).withMinute(0).plusDays(1))
+                                && sleepingSession.getEnd().isAfter(sleepingSession.getStart().withHour(0).withMinute(0).plusDays(1))
                                 //Убеждаемся, что жаворонок лёг после 12:00, иначе это другая ночь
-                                && sleepingSession.getSTART().isAfter(sleepingSession.getSTART().withHour(12).withMinute(0)))
+                                && sleepingSession.getStart().isAfter(sleepingSession.getStart().withHour(12).withMinute(0)))
                 //Это короче что-то типа хеш суммы ночи из номера дня в году и последних двух цифр года
                 //Так мы получаем уникальный ИД ночи за столетний период
-                .mapToInt(sleepingSession -> sleepingSession.getEND().getDayOfYear() + (366 * (sleepingSession.getEND().getYear() % 100)))
+                .mapToInt(sleepingSession -> sleepingSession.getEnd().getDayOfYear() + (366 * (sleepingSession.getEnd().getYear() % 100)))
                 //Выбрасываем неуникальные значения
                 .distinct()
                 //Считаем количество

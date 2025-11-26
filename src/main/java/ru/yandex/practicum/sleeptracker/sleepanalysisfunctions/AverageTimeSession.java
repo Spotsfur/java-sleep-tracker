@@ -13,7 +13,7 @@ public class AverageTimeSession implements Function<List<SleepingSession>, Integ
         //Делаем стрим long, потому что Duration.between хочет long
         long totalMinutes = sleepingSessions.stream()
                 //Превращаем каждый элемент в long minutes, сравнивая поля start и end
-                .mapToLong(session -> Duration.between(session.getSTART(), session.getEND()).toMinutes())
+                .mapToLong(session -> Duration.between(session.getStart(), session.getEnd()).toMinutes())
                 //Терминальная операция - складываем
                 .sum();
 

@@ -11,8 +11,8 @@ public class NightsWithoutSleep implements Function<List<SleepingSession>, Integ
     @Override
     public Integer apply(List<SleepingSession> sleepingSessions) {
         //Вычисляем начало и конец
-        LocalDateTime startOfPeriod = sleepingSessions.getFirst().getSTART();
-        LocalDateTime endOfPeriod = sleepingSessions.getLast().getEND();
+        LocalDateTime startOfPeriod = sleepingSessions.getFirst().getStart();
+        LocalDateTime endOfPeriod = sleepingSessions.getLast().getEnd();
         //Вычисляем всего дней (без хвоста)
         //int totalDays = Period.between(startOfPeriod.toLocalDate(), endOfPeriod.toLocalDate()).getDays();
         long longDays = endOfPeriod.toLocalDate().toEpochDay() - startOfPeriod.toLocalDate().toEpochDay();
@@ -36,11 +36,11 @@ public class NightsWithoutSleep implements Function<List<SleepingSession>, Integ
         //Фильтруем по ночам, убираем одинаковости, считаем количество, конвертируем в инт
         int nightsWithSleep = (int) sleepingSessions.stream()
                 .filter(sleepingSession ->
-                        sleepingSession.getSTART().isBefore(sleepingSession.getEND().withHour(6).withMinute(0))
-                                && sleepingSession.getEND().isAfter(sleepingSession.getEND().withHour(0).withMinute(0)))
+                        sleepingSession.getStart().isBefore(sleepingSession.getEnd().withHour(6).withMinute(0))
+                                && sleepingSession.getEnd().isAfter(sleepingSession.getEnd().withHour(0).withMinute(0)))
                 //Это короче что-то типа хеш суммы ночи из номера дня в году и последних двух цифр года
                 //Так мы получаем уникальный ИД ночи за столетний период
-                .mapToLong(sleepingSession -> sleepingSession.getEND().getDayOfYear() + (366 * (sleepingSession.getEND().getYear() % 100)))
+                .mapToLong(sleepingSession -> sleepingSession.getEnd().getDayOfYear() + (366 * (sleepingSession.getEnd().getYear() % 100)))
                 //Выбрасываем неуникальные значения
                 .distinct()
                 //Считаем количество
