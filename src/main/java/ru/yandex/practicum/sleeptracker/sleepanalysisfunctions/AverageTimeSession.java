@@ -20,8 +20,7 @@ public class AverageTimeSession implements Function<List<SleepingSession>, Integ
         long averageMinutes = totalMinutes / sleepingSessions.size();
 
         //А у вас int большой
-        if (averageMinutes < 600000000)
-        {
+        if (averageMinutes < 600000000) {
             return (int) averageMinutes;
         }
         return 0;
