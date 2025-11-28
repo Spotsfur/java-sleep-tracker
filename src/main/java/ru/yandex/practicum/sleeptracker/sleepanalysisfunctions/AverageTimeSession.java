@@ -17,12 +17,11 @@ public class AverageTimeSession implements Function<List<SleepingSession>, Integ
                 //Терминальная операция - складываем
                 .sum();
 
-        long averageMinutes = totalMinutes / sleepingSessions.size();
-
-        //А у вас int большой
-        if (averageMinutes < 600000000) {
-            return (int) averageMinutes;
+        long averageMinutes = 0;
+        if (!sleepingSessions.isEmpty()) {
+            averageMinutes = totalMinutes / sleepingSessions.size();
         }
-        return 0;
+
+        return (int) averageMinutes;
     }
 }

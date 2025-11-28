@@ -21,10 +21,7 @@ public class ShortestTimeSession implements Function<List<SleepingSession>, Inte
         //Проверка на пустой Опционал
         if (optionalMinMinutes.isPresent()) {
             long longMinMinutes = optionalMinMinutes.getAsLong();
-            //Нельзя столько спать, ты чё, в коме?
-            if (longMinMinutes < 600000000) {
-                return (int) longMinMinutes;
-            }
+            return (int) longMinMinutes;
         }
         return 0;
     }

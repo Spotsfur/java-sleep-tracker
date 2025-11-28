@@ -21,10 +21,7 @@ public class LongestTimeSession implements Function<List<SleepingSession>, Integ
         //Проверка на пустой Опционал
         if (optionalMaxMinutes.isPresent()) {
             long longMaxMinutes = optionalMaxMinutes.getAsLong();
-            //Нельзя столько спать, ты чё, в коме?
-            if (longMaxMinutes < 600000000) {
-                return (int) longMaxMinutes;
-            }
+            return (int) longMaxMinutes;
         }
         return 0;
     }
